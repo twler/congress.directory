@@ -27,6 +27,7 @@
     "selenium-webdriver": "^2.45.1"
   },
   "scripts": {
+    "start": "node server.js",
     "postinstall": "bower update",
     "test": "protractor ./e2e/protractor.conf.js"
   }
