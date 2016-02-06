@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('users')
-         .service('userService', ['$q', UserService]);
+    .service('userService', ['$http', '$q', UserService]);
 
   /**
    * Users DataService
@@ -12,7 +12,25 @@
    * @returns {{loadAll: Function}}
    * @constructor
    */
-  function UserService($q){
+  function UserService($http, $q){
+
+    var members = $q.defer()
+
+    function getMembers (stateCode) {
+      members = $q.defer()
+      if (!stateCode) { stateCode = '' }
+      $http({ method: 'GET', url: 'https://www.govtrack.us/api/v2/role?current=true&state=' + stateCode })
+        .success(function(data, status) {
+          console.log('success', data)
+          members.resolve(data.objects)
+        }).error(function(data, status) {
+          console.log('error', data)
+          members.reject(data)
+        }).finally(function() { console.log('finally') })
+        // .error (data, status) -> _handleError deferred, data, status
+        // .finally () -> _endRequest()
+    }
+
     var users = [
       {
         name: 'Lia Lugo',
@@ -48,10 +66,15 @@
 
     // Promise-based API
     return {
-      loadAllUsers : function() {
+      loadAllUsers: function() {
         // Simulate async nature of real remote calls
         return $q.when(users);
+      },
+      apiData: function(stateCode) {
+        getMembers(stateCode)
+        return $q.when(members.promise)
       }
+
     };
   }
 

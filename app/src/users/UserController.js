@@ -1,11 +1,11 @@
 (function(){
 
   angular
-       .module('users')
-       .controller('UserController', [
-          '$scope', 'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
-          UserController
-       ]);
+    .module('users')
+    .controller('UserController', [
+      '$scope', 'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
+      UserController
+    ]);
 
   /**
    * Main Controller for the Angular Material Starter App
@@ -25,16 +25,22 @@
 
     // Load all registered users
 
-    userService
-          .loadAllUsers()
-          .then( function( users ) {
-            self.users    = [].concat(users);
-            self.selected = users[0];
-          });
+    userService.loadAllUsers()
+    .then(function( users ) {
+      self.users    = [].concat(users);
+      self.selected = users[0];
+    });
 
     // *********************************
     // Internal methods
     // *********************************
+
+    function runState(stateCode) {
+      return userService.apiData(stateCode)
+      .then(function(members) {
+        self.users = [].concat(members)
+      })
+    }
 
     /**
      * Hide or Show the 'left' sideNav area
@@ -56,33 +62,33 @@
      */
     function makeContact(selectedUser) {
 
-        $mdBottomSheet.show({
-          controllerAs  : "cp",
-          templateUrl   : './src/users/view/contactSheet.html',
-          controller    : [ '$mdBottomSheet', ContactSheetController],
-          parent        : angular.element(document.getElementById('content'))
-        }).then(function(clickedItem) {
-          $log.debug( clickedItem.name + ' clicked!');
-        });
+      $mdBottomSheet.show({
+        controllerAs  : "cp",
+        templateUrl   : './src/users/view/contactSheet.html',
+        controller    : [ '$mdBottomSheet', ContactSheetController],
+        parent        : angular.element(document.getElementById('content'))
+      }).then(function(clickedItem) {
+        $log.debug( clickedItem.name + ' clicked!');
+      });
 
-        /**
-         * User ContactSheet controller
-         */
-        function ContactSheetController( $mdBottomSheet ) {
-          this.user = selectedUser;
-          this.actions = [
-            { name: 'Phone'       , icon: 'phone'       , icon_url: 'assets/svg/phone.svg'},
-            { name: 'Twitter'     , icon: 'twitter'     , icon_url: 'assets/svg/twitter.svg'},
-            { name: 'Google+'     , icon: 'google_plus' , icon_url: 'assets/svg/google_plus.svg'},
-            { name: 'Hangout'     , icon: 'hangouts'    , icon_url: 'assets/svg/hangouts.svg'}
-          ];
-          this.contactUser = function(action) {
-            // The actually contact process has not been implemented...
-            // so just hide the bottomSheet
+      /**
+       * User ContactSheet controller
+       */
+      function ContactSheetController( $mdBottomSheet ) {
+        this.user = selectedUser;
+        this.actions = [
+          { name: 'Phone'       , icon: 'phone'       , icon_url: 'assets/svg/phone.svg'},
+          { name: 'Twitter'     , icon: 'twitter'     , icon_url: 'assets/svg/twitter.svg'},
+          { name: 'Google+'     , icon: 'google_plus' , icon_url: 'assets/svg/google_plus.svg'},
+          { name: 'Hangout'     , icon: 'hangouts'    , icon_url: 'assets/svg/hangouts.svg'}
+        ];
+        this.contactUser = function(action) {
+          // The actually contact process has not been implemented...
+          // so just hide the bottomSheet
 
-            $mdBottomSheet.hide(action);
-          };
-        }
+          $mdBottomSheet.hide(action);
+        };
+      }
     }
 
     self.mapObject = {
@@ -100,27 +106,30 @@
         'MEDIUM': '#306596',
         'LOW': '#667FAF',
         'defaultFill': '#DDDDDD'
-      },
-      data: {
-        "AZ": {
-          "fillKey": "MEDIUM",
-        },
-        "CO": {
-          "fillKey": "HIGH",
-        },
-        "DE": {
-          "fillKey": "LOW",
-        },
-        "GA": {
-          "fillKey": "MEDIUM",
-        }
-      },
+      }
+      // data: {
+      //   "AZ": {
+      //     "fillKey": "MEDIUM",
+      //   },
+      //   "CO": {
+      //     "fillKey": "HIGH",
+      //   },
+      //   "DE": {
+      //     "fillKey": "LOW",
+      //   },
+      //   "GA": {
+      //     "fillKey": "MEDIUM",
+      //   }
+      // },
     }
     self.clicked = function(geography) {
       console.log(geography.id)
       self.stateName = geography.properties.name;
       self.stateCode = geography.id;
-      $scope.$apply()
+      runState(self.stateCode)
+      .then(function() {
+        // $scope.$apply()
+      })
     }
 
   }

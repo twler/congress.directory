@@ -9,8 +9,8 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
-    <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css"/>
-    <link rel="stylesheet" href="assets/app.css"/>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="app/assets/app.css"/>
 
     <style type="text/css">
         /**
@@ -37,8 +37,8 @@
       <md-list>
         <md-list-item ng-repeat="it in ul.users">
             <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-              <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
-              {{it.name}}
+              <md-icon md-svg-icon="http://www.govtrack.us/data/photos/{{ it.person.id }}-200px.jpeg" class="avatar"></md-icon>
+              {{ it.person.firstname + ' ' + it.person.lastname }}
             </md-button>
         </md-list-item>
       </md-list>
@@ -64,6 +64,8 @@
 
           <datamap map="ul.mapObject" on-click="ul.clicked"></datamap>
 
+          <pre>{{ ul.users | json }}</pre>
+
           <md-button class="contact" md-no-ink ng-click="ul.makeContact(ul.selected)" aria-label="Share with {{ ul.selected.name }}">
             <md-tooltip>Contact {{ ul.selected.name }}</md-tooltip>
             <md-icon md-svg-icon="share"></md-icon>
@@ -76,22 +78,22 @@
 
     <!-- <div id="container" style="position: relative; width: 500px; height: 300px;"></div> -->
 
-    <script src="../bower_components/angular/angular.js"></script>
-    <script src="../bower_components/angular-animate/angular-animate.js"></script>
-    <script src="../bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="../bower_components/angular-material/angular-material.js"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-    <script src="../bower_components/datamaps/dist/datamaps.usa.min.js"></script>
-    <script src="../bower_components/angular-datamaps/dist/angular-datamaps.min.js"></script>
+    <script src="bower_components/datamaps/dist/datamaps.usa.min.js"></script>
+    <script src="bower_components/angular-datamaps/dist/angular-datamaps.min.js"></script>
     <!-- <script>
         var map = new Datamap({element: document.getElementById('container'), scope: 'usa'});
     </script> -->
 
-    <script src="./src/users/Users.js"></script>
-    <script src="./src/users/UserController.js"></script>
-    <script src="./src/users/UserService.js"></script>
+    <script src="app/src/users/Users.js"></script>
+    <script src="app/src/users/UserController.js"></script>
+    <script src="app/src/users/UserService.js"></script>
 
     <script type="text/javascript">
 
