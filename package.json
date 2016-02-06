@@ -2,20 +2,24 @@
   "name": "material-start",
   "private": true,
   "version": "0.0.3",
+  "engines": {
+    "node": "0.10.x"
+  },
   "description": "A starter project for AngularJS Material",
   "repository": "https://github.com/angular/material-start",
   "licenses": [
-       {
-         "type": "MIT",
-         "url": "https://github.com/angular/material/blob/master/LICENSE"
-       }
-     ],
+    {
+      "type": "MIT",
+      "url": "https://github.com/angular/material/blob/master/LICENSE"
+    }
+  ],
   "dependencies": {
-    "express": "^4.4.5",
+    "body-parser": "^1.11.0",
+    "bower": "^1.7.7",
     "compression": "^1.6.0",
+    "express": "^4.4.5",
     "morgan": "^1.1.1",
-    "serve-static": "^1.9.1",
-    "body-parser": "^1.11.0"
+    "serve-static": "^1.9.1"
   },
   "devDependencies": {
     "karma": "~0.10",
