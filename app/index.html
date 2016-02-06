@@ -37,7 +37,7 @@
       <md-list>
         <md-list-item ng-repeat="it in ul.users">
             <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-              <md-icon md-svg-icon="http://www.govtrack.us/data/photos/{{ it.person.id }}-200px.jpeg" class="avatar"></md-icon>
+              <md-icon md-svg-icon="//www.govtrack.us/data/photos/{{ it.person.id }}-200px.jpeg" class="avatar"></md-icon>
               {{ it.person.firstname + ' ' + it.person.lastname }}
             </md-button>
         </md-list-item>
