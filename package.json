@@ -32,7 +32,6 @@
   },
   "scripts": {
     "start": "node server.js",
-    "postinstall": "bower update",
     "test": "protractor ./e2e/protractor.conf.js"
   }
 }

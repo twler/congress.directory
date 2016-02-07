@@ -1,6 +1,12 @@
 (function(){
 
   angular
+  .module('users')
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"
+  }])
+
+  angular
     .module('users')
     .controller('UserController', [
       '$scope', 'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
@@ -15,20 +21,20 @@
    * @constructor
    */
   function UserController($scope, userService, $mdSidenav, $mdBottomSheet, $log) {
-    var self = this;
+    var self = this
 
-    self.selected     = null;
-    self.users        = [ ];
-    self.selectUser   = selectUser;
-    self.toggleList   = toggleUsersList;
-    self.makeContact  = makeContact;
+    self.selected     = null
+    self.users        = []
+    self.selectUser   = selectUser
+    self.toggleList   = toggleUsersList
+    self.makeContact  = makeContact
 
     // Load all registered users
 
     userService.loadAllUsers()
     .then(function( users ) {
-      self.users    = [].concat(users);
-      self.selected = users[0];
+      self.users    = [].concat(users)
+      self.selected = users[0]
     });
 
     // *********************************
@@ -123,7 +129,6 @@
       // },
     }
     self.clicked = function(geography) {
-      console.log(geography.id)
       self.stateName = geography.properties.name;
       self.stateCode = geography.id;
       runState(self.stateCode)
