@@ -62,38 +62,51 @@
         <md-button id="main" class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
           <md-icon md-svg-icon="menu" ></md-icon>
         </md-button>
-        <h3 ng-if="!ul.selected.id">Congress.Directory</h3>
-        <h3 ng-if="ul.selected.id">{{ ul.selected.person.firstname + ' ' + ul.selected.person.lastname }}</h3>
-        <span ng-if="ul.selected.id" flex></span>
-        <md-button ng-if="ul.selected.id" ng-click="ul.selected = {}">
-          <i class="material-icons">close</i>
-        </md-button>
+        <span ng-if="!ul.selected.id">
+          <h3>Congress.Directory</h3>
+        </span>
+        <span ng-if="ul.selected.id">
+          <span layout="row">
+              <span flex=60>
+                <h3>{{ ul.selected.person.firstname + ' ' + ul.selected.person.lastname }}</h3>
+              </span>
+              <span flex=30>
+                <span layout="row" layout-align="space-around center">
+                  <md-button href="https://youtube.com/{{ ul.selected.person.youtubeid }}" target="_blank" class="md-icon-button" md-no-ink>
+                    <md-tooltip>{{ ul.selected.person.firstname }} on YouTube</md-tooltip>
+                    <md-icon md-svg-icon="youtube"></md-icon>
+                  </md-button>
+                  <md-button href="https://twitter.com/{{ ul.selected.person.twitterid }}" target="_blank" class="md-icon-button" md-no-ink>
+                    <md-tooltip>{{ ul.selected.person.firstname }} on Twitter</md-tooltip>
+                    <md-icon md-svg-icon="twitter"></md-icon>
+                  </md-button>
+                  <md-button href="{{ ul.selected.person.link }}" target="_blank" class="md-icon-button" md-no-ink>
+                    <md-tooltip>{{ ul.selected.person.firstname }}'s Website</md-tooltip>
+                    <md-icon md-svg-icon="link"></md-icon>
+                  </md-button>
+                  <md-button href="{{ ul.selected.extra.contact_form }}" target="_blank" class="md-icon-button" md-no-ink aria-label="Share with {{ ul.selected.person.firstname }}">
+                    <md-tooltip>Contact {{ ul.selected.person.firstname }}</md-tooltip>
+                    <md-icon md-svg-icon="share"></md-icon>
+                  </md-button>
+                </span>
+              </span>
+              <span flex=10>
+                <md-button ng-click="ul.selected = {}">
+                  <i class="material-icons">close</i>
+                </md-button>
+              </span>
+          </span>
+        </span>
       </md-toolbar>
 
       <md-content flex id="content" ng-if="ul.selected.id">
         <!-- <md-icon md-svg-icon="{{ ul.selected.avatar }}" class="avatar"></md-icon> -->
+
         <span style="background-image: url(https://www.govtrack.us/data/photos/{{ ul.selected.person.id }}-50px.jpeg)" class="avatar cd-avatar"></span>
 
-
-        <h2></h2>
-
         <div>
-          <md-button href="https://youtube.com/{{ ul.selected.person.youtubeid }}" target="_blank" class="md-icon-button" md-no-ink>
-            <md-tooltip>{{ ul.selected.person.firstname }} on YouTube</md-tooltip>
-            <md-icon md-svg-icon="youtube"></md-icon>
-          </md-button>
-          <md-button href="https://twitter.com/{{ ul.selected.person.twitterid }}" target="_blank" class="md-icon-button" md-no-ink>
-            <md-tooltip>{{ ul.selected.person.firstname }} on Twitter</md-tooltip>
-            <md-icon md-svg-icon="twitter"></md-icon>
-          </md-button>
-          <md-button href="{{ ul.selected.person.link }}" target="_blank" class="md-icon-button" md-no-ink>
-            <md-tooltip>{{ ul.selected.person.firstname }}'s Website</md-tooltip>
-            <md-icon md-svg-icon="link"></md-icon>
-          </md-button>
-          <md-button href="{{ ul.selected.extra.contact_form }}" target="_blank" class="md-icon-button" md-no-ink aria-label="Share with {{ ul.selected.person.firstname }}">
-            <md-tooltip>Contact {{ ul.selected.person.firstname }}</md-tooltip>
-            <md-icon md-svg-icon="share"></md-icon>
-          </md-button>
+
+
         </div>
         <p>{{ ul.selected.content }}</p>
         <hr>
