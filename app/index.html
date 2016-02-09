@@ -33,7 +33,7 @@
 
   <body ng-app="starterApp" layout="row" ng-controller="UserController as ul" ng-cloak>
 
-    <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+    <!-- <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
       md-component-id="left"
       ng-click="ul.toggleList()" aria-label="Show User List"
       md-is-locked-open="$mdMedia('gt-sm')">
@@ -45,15 +45,13 @@
       <md-list>
         <md-list-item ng-repeat="it in ul.users">
             <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
-              <!-- <md-icon md-svg-icon="https://www.govtrack.us/data/photos/{{ it.person.id }}-200px.jpeg" class="avatar"></md-icon> -->
-
               <div style="background-image: url(https://www.govtrack.us/data/photos/{{ it.person.id }}-50px.jpeg)" class="avatar cd-avatar"></div>
               {{ it.person.firstname + ' ' + it.person.lastname }}
             </md-button>
         </md-list-item>
       </md-list>
 
-    </md-sidenav>
+    </md-sidenav> -->
 
 
     <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
@@ -118,7 +116,17 @@
       </md-content>
 
       <md-content flex ng-if="!ul.selected.id">
-        <datamap map="ul.mapObject" on-click="ul.clicked"></datamap>
+        <div id="map" style="height: 400px; max-height: 100%"></div>
+        <hr>
+
+        <!-- <datamap map="ul.mapObject" on-click="ul.clicked"></datamap> -->
+        <md-list>
+          <md-list-item ng-repeat="member in ul.users" ng-click="goToPerson(person.name, $event)">
+            <img alt="{{ member.person.name }}" ng-src="{{ 'https://www.govtrack.us/data/photos/' + member.person.id + '-50px.jpeg' }}" class="md-avatar" />
+            <p>{{ member.person.name }}</p>
+            <md-icon md-svg-icon="communication:messenger" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3"></md-icon>
+          </md-list-item>
+        </md-list>
       </md-content>
 
     </div>
@@ -163,6 +171,33 @@
                 .accentPalette('red');
               });
 
+    </script>
+    <script type="text/javascript">
+
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: { lat: 37.4419, lng: -95.1419 },
+          zoom: 4
+        });
+        map.addListener('click', function(e) {
+          // placeMarkerAndPanTo(e.latLng, map);
+          console.log(e.latLng.lat(), e.latLng.lng())
+          map.panTo(e.latLng);
+          map.setZoom(8)
+        });
+        function placeMarkerAndPanTo(latLng, map) {
+          var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+          });
+          map.panTo(latLng);
+        }
+      }
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNmLD4fssyz881mYs86l_d6sxTMFAuiE0&callback=initMap">
     </script>
 
   </body>
