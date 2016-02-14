@@ -34,7 +34,7 @@
     function getMembersByLatLng (lat, lng) {
       members = $q.defer()
       // if (!stateCode) { stateCode = '' }
-      $http({ method: 'GET', url: 'http://congress.api.sunlightfoundation.com/legislators/locate?latitude=' + lat + '&longitude=' + lng + '&apikey=d9733fd4fa5a43cda9885da876a67848' })
+      $http({ method: 'GET', url: 'https://congress.api.sunlightfoundation.com/legislators/locate?latitude=' + lat + '&longitude=' + lng + '&apikey=d9733fd4fa5a43cda9885da876a67848' })
         .success(function(data, status) {
           console.log('success', data)
           members.resolve(data.objects)
