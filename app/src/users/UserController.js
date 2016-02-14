@@ -1,12 +1,6 @@
 (function(){
 
   angular
-  .module('users')
-  .config(['$httpProvider', function($httpProvider) {
-    $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"
-  }])
-
-  angular
     .module('users')
     .controller('UserController', [
       '$scope', 'userService', '$mdSidenav', '$mdBottomSheet', '$log', '$q',
@@ -31,11 +25,11 @@
 
     // Load all registered users
 
-    userService.loadAllUsers()
-    .then(function( users ) {
-      self.users    = [].concat(users)
-      self.selected = users[0]
-    });
+    // userService.loadAllUsers()
+    // .then(function( users ) {
+    //   self.users    = [].concat(users)
+    //   self.selected = users[0]
+    // });
 
     // *********************************
     // Internal methods
@@ -49,8 +43,10 @@
     }
 
     function runLatLng(lat, lng) {
+      console.log('runLatLng', lat, lng)
       return userService.getMembersByLatLng(lat, lng)
       .then(function(members) {
+        console.log('members', members)
         self.users = [].concat(members)
       })
     }
@@ -106,10 +102,10 @@
 
     self.mapObject = {
       scope: 'usa',
-      options: {
-        width: 600,
-        legendHeight: 60 // optionally set the padding for the legend
-      },
+      // options: {
+      //   width: 600,
+      //   legendHeight: 60 // optionally set the padding for the legend
+      // },
       geographyConfig: {
         highlighBorderColor: '#EAA9A8',
         highlighBorderWidth: 2
@@ -120,29 +116,7 @@
         'LOW': '#667FAF',
         'defaultFill': '#DDDDDD'
       }
-      // data: {
-      //   "AZ": {
-      //     "fillKey": "MEDIUM",
-      //   },
-      //   "CO": {
-      //     "fillKey": "HIGH",
-      //   },
-      //   "DE": {
-      //     "fillKey": "LOW",
-      //   },
-      //   "GA": {
-      //     "fillKey": "MEDIUM",
-      //   }
-      // },
     }
-    // self.clicked = function(geography) {
-    //   self.stateName = geography.properties.name;
-    //   self.stateCode = geography.id;
-    //   runState(self.stateCode)
-    //   .then(function() {
-    //     // $scope.$apply()
-    //   })
-    // }
 
     var map;
     angular.initMap = function() {
@@ -151,9 +125,9 @@
         zoom: 4
       });
       map.addListener('click', function(e) {
-        // placeMarkerAndPanTo(e.latLng, map);
         runLatLng(e.latLng.lat(), e.latLng.lng())
-        map.panTo(e.latLng);
+        placeMarkerAndPanTo(e.latLng, map)
+        // map.panTo(e.latLng);
         map.setZoom(8)
       });
       function placeMarkerAndPanTo(latLng, map) {

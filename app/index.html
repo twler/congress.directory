@@ -56,7 +56,7 @@
 
     <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
 
-      <md-toolbar layout="row" class="md-whiteframe-z1">
+      <!-- <md-toolbar layout="row" class="md-whiteframe-z1">
         <md-button id="main" class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
           <md-icon md-svg-icon="menu" ></md-icon>
         </md-button>
@@ -95,7 +95,7 @@
               </span>
           </span>
         </span>
-      </md-toolbar>
+      </md-toolbar> -->
 
       <md-content flex id="content" ng-if="ul.selected.id">
         <!-- <md-icon md-svg-icon="{{ ul.selected.avatar }}" class="avatar"></md-icon> -->
@@ -123,10 +123,11 @@
         <md-list>
           <md-list-item ng-repeat="member in ul.users" ng-click="goToPerson(person.name, $event)">
             <img alt="{{ member.person.name }}" ng-src="{{ 'https://www.govtrack.us/data/photos/' + member.person.id + '-50px.jpeg' }}" class="md-avatar" />
-            <p>{{ member.person.name }}</p>
+            <p>{{ member.name }}</p>
             <md-icon md-svg-icon="communication:messenger" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3"></md-icon>
           </md-list-item>
         </md-list>
+        <pre>{{ ul.users |json }}</pre>
       </md-content>
 
     </div>
