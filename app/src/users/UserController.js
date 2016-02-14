@@ -48,6 +48,13 @@
       })
     }
 
+    function runLatLng(lat, lng) {
+      return userService.getMembersByLatLng(lat, lng)
+      .then(function(members) {
+        self.users = [].concat(members)
+      })
+    }
+
     /**
      * Hide or Show the 'left' sideNav area
      */
@@ -128,13 +135,34 @@
       //   }
       // },
     }
-    self.clicked = function(geography) {
-      self.stateName = geography.properties.name;
-      self.stateCode = geography.id;
-      runState(self.stateCode)
-      .then(function() {
-        // $scope.$apply()
-      })
+    // self.clicked = function(geography) {
+    //   self.stateName = geography.properties.name;
+    //   self.stateCode = geography.id;
+    //   runState(self.stateCode)
+    //   .then(function() {
+    //     // $scope.$apply()
+    //   })
+    // }
+
+    var map;
+    angular.initMap = function() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 37.4419, lng: -95.1419 },
+        zoom: 4
+      });
+      map.addListener('click', function(e) {
+        // placeMarkerAndPanTo(e.latLng, map);
+        runLatLng(e.latLng.lat(), e.latLng.lng())
+        map.panTo(e.latLng);
+        map.setZoom(8)
+      });
+      function placeMarkerAndPanTo(latLng, map) {
+        var marker = new google.maps.Marker({
+          position: latLng,
+          map: map
+        });
+        map.panTo(latLng);
+      }
     }
 
   }

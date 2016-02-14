@@ -172,32 +172,8 @@
               });
 
     </script>
-    <script type="text/javascript">
-
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: { lat: 37.4419, lng: -95.1419 },
-          zoom: 4
-        });
-        map.addListener('click', function(e) {
-          // placeMarkerAndPanTo(e.latLng, map);
-          console.log(e.latLng.lat(), e.latLng.lng())
-          map.panTo(e.latLng);
-          map.setZoom(8)
-        });
-        function placeMarkerAndPanTo(latLng, map) {
-          var marker = new google.maps.Marker({
-            position: latLng,
-            map: map
-          });
-          map.panTo(latLng);
-        }
-      }
-
-    </script>
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNmLD4fssyz881mYs86l_d6sxTMFAuiE0&callback=initMap">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNmLD4fssyz881mYs86l_d6sxTMFAuiE0&callback=angular.initMap">
     </script>
 
   </body>
