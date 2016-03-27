@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <title>Congress Directory</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+  <link rel="stylesheet" href="app/bower_components/angular-material/angular-material.css"/>
+  <link rel="stylesheet" href="app/assets/app.css"/>
+  <link rel="stylesheet" href="app/src/app.css"/>
+
+  <style type="text/css">
+      /**
+       * Hide when Angular is not yet loaded and initialized
+       */
+      [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+      }
+      .cd-avatar {
+        background-repeat: no-repeat;
+        background-position: 50%;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+      }
+  </style>
+
+</head>
+
+<body ng-controller="MainCtrl" class="md-padding bottomSheetdemoBasicUsage" ng-cloak="" ng-app="MyApp">
+
+  <!-- <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+    md-component-id="left"
+    ng-click="ul.toggleList()" aria-label="Show User List"
+    md-is-locked-open="$mdMedia('gt-sm')">
+
+    <md-toolbar class="md-whiteframe-z1">
+      <h3>Representatives</h3>
+    </md-toolbar>
+
+    <md-list>
+      <md-list-item ng-repeat="it in ul.users">
+          <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
+            <div style="background-image: url(https://www.govtrack.us/data/photos/{{ it.person.id }}-50px.jpeg)" class="avatar cd-avatar"></div>
+            {{ it.person.firstname + ' ' + it.person.lastname }}
+          </md-button>
+      </md-list-item>
+    </md-list>
+
+  </md-sidenav> -->
+
+
+  <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+
+    <!-- <md-toolbar layout="row" class="md-whiteframe-z1">
+      <md-button id="main" class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
+        <md-icon md-svg-icon="menu" ></md-icon>
+      </md-button>
+      <span ng-if="!ul.selected.id">
+        <h3>Congress.Directory</h3>
+      </span>
+      <span ng-if="ul.selected.id">
+        <span layout="row">
+            <span flex=60>
+              <h3>{{ ul.selected.person.firstname + ' ' + ul.selected.person.lastname }}</h3>
+            </span>
+            <span flex=30>
+              <span layout="row" layout-align="space-around center">
+                <md-button href="https://youtube.com/{{ ul.selected.person.youtubeid }}" target="_blank" class="md-icon-button" md-no-ink>
+                  <md-tooltip>{{ ul.selected.person.firstname }} on YouTube</md-tooltip>
+                  <md-icon md-svg-icon="youtube"></md-icon>
+                </md-button>
+                <md-button href="https://twitter.com/{{ ul.selected.person.twitterid }}" target="_blank" class="md-icon-button" md-no-ink>
+                  <md-tooltip>{{ ul.selected.person.firstname }} on Twitter</md-tooltip>
+                  <md-icon md-svg-icon="twitter"></md-icon>
+                </md-button>
+                <md-button href="{{ ul.selected.person.link }}" target="_blank" class="md-icon-button" md-no-ink>
+                  <md-tooltip>{{ ul.selected.person.firstname }}'s Website</md-tooltip>
+                  <md-icon md-svg-icon="link"></md-icon>
+                </md-button>
+                <md-button href="{{ ul.selected.extra.contact_form }}" target="_blank" class="md-icon-button" md-no-ink aria-label="Share with {{ ul.selected.person.firstname }}">
+                  <md-tooltip>Contact {{ ul.selected.person.firstname }}</md-tooltip>
+                  <md-icon md-svg-icon="share"></md-icon>
+                </md-button>
+              </span>
+            </span>
+            <span flex=10>
+              <md-button ng-click="ul.selected = {}">
+                <i class="material-icons">close</i>
+              </md-button>
+            </span>
+        </span>
+      </span>
+    </md-toolbar> -->
+
+    <md-content flex id="content" ng-if="ul.selected.id">
+
+      <span style="background-image: url(https://www.govtrack.us/data/photos/{{ ul.selected.person.id }}-50px.jpeg)" class="avatar cd-avatar"></span>
+
+      <div>
+
+
+      </div>
+      <p>{{ ul.selected.content }}</p>
+      <hr>
+      <p>{{ul.stateCode}}</p>
+      <pre>{{ ul.selected.person | json }}</pre>
+
+
+
+    </md-content>
+
+    <md-content flex ng-if="!ul.selected.id">
+      <div id="map" style="height: 400px; max-height: 100%"></div>
+      <hr>
+
+      <md-list>
+        <md-list-item ng-repeat="member in ul.users" ng-click="goToPerson(person.name, $event)">
+          <img alt="{{ member.person.name }}" ng-src="{{ 'https://www.govtrack.us/data/photos/' + member.person.id + '-50px.jpeg' }}" class="md-avatar" />
+          <p>{{ member.name }}</p>
+          <md-icon md-svg-icon="communication:messenger" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3"></md-icon>
+        </md-list-item>
+      </md-list>
+      <pre>{{ ul.users |json }}</pre>
+    </md-content>
+
+  </div>
+
+  <div class="md-padding">
+    <h2 class="md-title">Usage</h2>
+    <p>Bottom sheets can be displayed by clicking one of the buttons below.  Once shown, it can be
+    dismissed by either swiping down or clicking in the shaded area.</p>
+    <h2 class="md-title">Actions</h2>
+    <p>Use one of the following buttons to display a bottom sheet.</p>
+    <div class="bottom-sheet-demo inset" layout="row" layout-sm="column" layout-align="center" >
+      <md-button flex="50" class="md-primary md-raised" ng-click="showBottomSheet()">Show as List</md-button>
+      <md-button flex="50" class="md-primary md-raised" ng-click="showGridBottomSheet()">Show as Grid</md-button>
+    </div>
+    <div ng-if="alert">
+      <br/>
+      <b layout="row" layout-align="center center" class="md-padding">
+        {{alert}}
+      </b>
+    </div>
+  </div>
+
+  <br>
+
+  <!-- <div id="container" style="position: relative; width: 500px; height: 300px;"></div> -->
+
+  <script src="app/bower_components/angular/angular.js"></script>
+  <script src="app/bower_components/angular-animate/angular-animate.js"></script>
+  <script src="app/bower_components/angular-aria/angular-aria.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+  <script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
+  <script src="../app/bower_components/angular-material/angular-material.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  <script src="app/bower_components/datamaps/dist/datamaps.usa.min.js"></script>
+  <script src="app/bower_components/angular-datamaps/dist/angular-datamaps.min.js"></script>
+  <!-- <script>
+      var map = new Datamap({element: document.getElementById('container'), scope: 'usa'});
+  </script> -->
+
+  <script src="app/src/app.js"></script>
+  <!-- <script src="app/src/users/Users.js"></script>
+  <script src="app/src/users/UserController.js"></script>
+  <script src="app/src/users/UserService.js"></script> -->
+
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNmLD4fssyz881mYs86l_d6sxTMFAuiE0&callback=angular.initMap">
+  </script>
+
+</body>
+</html>

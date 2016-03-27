@@ -11,24 +11,7 @@ var app = express()
 
 app.use(compression())
 
-// redirectToApex = (req, res, next) ->
-//   if req.headers.host is 'www.eeosk.com'
-//     res.writeHead 301,
-//       Location: [
-//         'https://eeosk.com'
-//         req.url
-//       ].join('')
-//       Expires: (new Date).toGMTString()
-//
-//     res.end()
-//   else
-//     next()
-//   return
-
 if (process.env.NODE_ENV === 'production'){
-  // Force SSL and redirect on eeosk properties only
-  // app.use(redirectToApex)
-  // app.use forceSsl
   app.use(morgan('common'))
 } else {
   app.use(morgan('dev'))
@@ -44,8 +27,7 @@ app.use(bodyParser.json())
 
 app.use(serveStatic(path.join(__dirname, '')))
 app.all('/*', function (req, res, next) {
-  // Send builder.html to support HTML5Mode
-  res.sendfile('index.html', { root: path.join(__dirname, 'app') })
+  res.sendFile('index.html', { root: path.join(__dirname, 'app') })
   return
 })
 

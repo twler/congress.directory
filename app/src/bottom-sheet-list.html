@@ -1,0 +1,10 @@
+<md-bottom-sheet class="md-list md-has-header" ng-cloak>
+  <md-subheader>Congress Members</md-subheader>
+  <md-list>
+    <md-list-item ng-repeat="member in bottom.userData.filteredMembers" ng-click="bottom.goToPerson(person.name)">
+      <img alt="{{ member.person.name }}" ng-src="{{ 'https://www.govtrack.us/data/photos/' + member.person.id + '-50px.jpeg' }}" class="md-avatar" />
+      <p>{{ member.name }}</p>
+      <md-icon md-svg-icon="communication:messenger" ng-click="doSecondaryAction($event)" aria-label="Open Chat" class="md-secondary md-hue-3"></md-icon>
+    </md-list-item>
+  </md-list>
+</md-bottom-sheet>
